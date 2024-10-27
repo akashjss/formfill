@@ -4,10 +4,10 @@ from pathlib import Path
 from uuid import uuid4
 from PIL import Image
 
-from anthropic_computer_use_demo.tools.computer import ComputerTool, Action, ScalingSource, OUTPUT_DIR
-from anthropic_computer_use_demo.tools.base import ToolError, ToolResult
+from .anthropic_computer_use_demo.tools.computer import ComputerTool, Action, ScalingSource, OUTPUT_DIR
+from .anthropic_computer_use_demo.tools.base import ToolError, ToolResult
 
-from image_utils import overlay_cursor, add_text_to_image, resize_for_editing, restore_from_editing
+from .image_utils import overlay_cursor, add_text_to_image, resize_for_editing, restore_from_editing
 
 
 class PDFEditorTool(ComputerTool):
@@ -16,7 +16,7 @@ class PDFEditorTool(ComputerTool):
 
         self.current_position = (0,0)
 
-        output_dir = Path(".")
+        output_dir = Path(OUTPUT_DIR)
         output_dir.mkdir(parents=True, exist_ok=True)
         self.path = output_dir / f"screenshot_{uuid4().hex}.png"
         self.original_size = img.size

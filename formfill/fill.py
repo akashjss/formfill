@@ -1,6 +1,6 @@
 from PIL import Image
 
-from modified_loop import sampling_loop
+from .modified_loop import sampling_loop
 
 async def fill_form(img: Image.Image, data: str) -> Image.Image:
     messages = [{"role": "user", "content": f"I am filling out a form on my local computer. Please assist me. Use this data: {data}"}]

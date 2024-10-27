@@ -5,10 +5,10 @@ from typing import cast, Any
 from anthropic.types.beta import BetaMessageParam, BetaToolResultBlockParam
 from PIL import Image
 
-from anthropic_computer_use_demo.loop import COMPUTER_USE_BETA_FLAG, _response_to_params, _make_api_tool_result
-from anthropic_computer_use_demo.tools.collection import ToolCollection
+from .anthropic_computer_use_demo.loop import COMPUTER_USE_BETA_FLAG, _response_to_params, _make_api_tool_result
+from .anthropic_computer_use_demo.tools.collection import ToolCollection
 
-from pdf_editor import PDFEditorTool
+from .pdf_editor import PDFEditorTool
 
 
 async def sampling_loop(
@@ -37,7 +37,6 @@ async def sampling_loop(
             tools=tool_collection.to_params(),
             betas=betas,
         )
-        print(response)
         
         response_params = _response_to_params(response)
         messages.append(

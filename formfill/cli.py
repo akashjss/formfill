@@ -7,7 +7,7 @@ from pathlib import Path
 from pdf2image import convert_from_path
 from PIL import Image
 
-from fill import fill_form
+from .fill import fill_form
 
 
 def images_to_pdf(images: list[Image.Image], output_path: str) -> None:
@@ -57,7 +57,7 @@ async def main():
         
         # Generate output filename
         input_path = Path(args.form)
-        output_path = input_path.parent / f"{input_path.stem}_filled.pdf"
+        output_path = f"{input_path.stem}_filled.pdf"
         
         # Convert processed images back to PDF
         images_to_pdf(processed_images, str(output_path))
@@ -68,5 +68,14 @@ async def main():
         print(f"Error: {str(e)}")
         exit(1)
 
+
+def run_cli():
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\nOperation cancelled by user")
+        exit(1)
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    run_cli()
