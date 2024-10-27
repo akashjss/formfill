@@ -1,0 +1,2 @@
+anthropic
+pdf2image
