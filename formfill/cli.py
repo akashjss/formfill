@@ -2,12 +2,35 @@
 
 import argparse
 import asyncio
+import logging
 import os
 from pathlib import Path
 from pdf2image import convert_from_path
 from PIL import Image
 
 from .fill import fill_form
+
+
+# Set up logger
+logger = logging.getLogger('formfill')
+
+def setup_logging(verbose: bool):
+    """Configure logging based on verbosity level"""
+    # Configure log formatting
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    # Set up console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    
+    # Set up the logger
+    logger.addHandler(console_handler)
+    
+    # Set log level based on verbose flag
+    if verbose:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
 
 def images_to_pdf(images: list[Image.Image], output_path: str) -> None:
@@ -29,8 +52,11 @@ async def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('-f', '--file', help='Path to CSV file containing form data')
     group.add_argument('-s', '--string', help='Direct string input for form data')
-    
+    parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose debug logging')    
+
     args = parser.parse_args()
+
+    setup_logging(args.verbose)
     
     try:
         # Verify input PDF exists
@@ -50,7 +76,6 @@ async def main():
         # Process each page
         processed_images = []
         for img in images:
-            # Call the fill_form function (assumed to be imported)
             filled_img = await fill_form(img, data)
             
             processed_images.append(filled_img)
