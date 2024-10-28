@@ -18,7 +18,7 @@ $ brew install poppler
 ### Installing FormFill
 
 ```bash
-$ pip install -e .
+$ pip install formfill
 ```
 
 ### Authentication
