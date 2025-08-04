@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import cast, Any
 
 from anthropic import AsyncAnthropic
@@ -30,7 +31,7 @@ async def sampling_loop(
 
     while True:
         betas = [COMPUTER_USE_BETA_FLAG]
-        client = AsyncAnthropic()
+        client = AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
         
         response = await client.beta.messages.create(
             max_tokens=max_tokens,
